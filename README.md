@@ -27,12 +27,13 @@ Contributions are Welcome! If you find any issues or have suggestions for improv
 
 # Road Map
 There are a few more things I'd like to implement into this code in the future. 
-- I want to implement a Game Over page after you run into yourself. It would print the number of apples you'd eaten before you ran into something and also have a retry button to start over.
+-I want to implement a Game Over page after you run into yourself. It would print the number of apples you'd eaten before you ran into something and also have a retry button to start over.
   
-- Better looking gui with more in the about section
+-Better looking gui with more in the about section
 -Highscore feature
 
 -campaign with different levels each with a different amount of obstacles in the grid
+
 # License
 This project is licensed under the MIT License - see the the LICENSE file for details
 # Acknowledgements
