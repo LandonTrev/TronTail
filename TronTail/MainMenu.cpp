@@ -7,7 +7,7 @@ MainMenu::MainMenu(float width, float height) {
     }
 
     // Load the background texture (ensure the path is correct)
-    if (!backgroundTexture.loadFromFile("texture/background1.jpg")) { // Adjust the background path if needed
+    if (!backgroundTexture.loadFromFile("texture/background.jpg")) { // Adjust the background path if needed
         cout << "Error loading background texture!" << endl;
     }
     backgroundSprite.setTexture(backgroundTexture);

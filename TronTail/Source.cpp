@@ -5,40 +5,52 @@
 using namespace sf;
 
 int N = 30, M = 20;
-int gridSize = 16;
+int gridSize = 15.5;
 int w = gridSize * N;
 int h = gridSize * M;
 
-int dir, num = 4;
+int dir, num = 2;
 struct Snake { int x, y; } s[100];
 struct Fruit { int x, y; } f;
 
 GameState currentState = MainMenuState;
 
 void Tick() {
+    // Move the body
     for (int i = num; i > 0; --i) {
         s[i].x = s[i - 1].x;
         s[i].y = s[i - 1].y;
     }
 
+    // Move the head based on direction
     if (dir == 0) s[0].y += 1;
     if (dir == 1) s[0].x -= 1;
     if (dir == 2) s[0].x += 1;
     if (dir == 3) s[0].y -= 1;
 
+    // Check if the snake eats the fruit
     if (s[0].x == f.x && s[0].y == f.y) {
         num++;
         f.x = rand() % N;
         f.y = rand() % M;
     }
 
-    if (s[0].x >= N) s[0].x = 0;
-    if (s[0].x < 0) s[0].x = N - 1;
-    if (s[0].y >= M) s[0].y = 0;
-    if (s[0].y < 0) s[0].y = M - 1;
+    // Check if snake hits the border (and reset it)
+    if (s[0].x >= N || s[0].x < 0 || s[0].y >= M || s[0].y < 0) {
+        // Reset the snake to the middle and lose its last block
+        num = 2; // Reset length
+        s[0].x = N / 2; s[0].y = M / 2;  // Place head at the center
+        for (int i = 1; i < num; ++i) {
+            s[i].x = s[0].x - i;  // Body parts to the left of head
+            s[i].y = s[0].y;      // Keep the body at the same vertical level
+        }
+    }
 
+    // Check if the snake collides with itself
     for (int i = 1; i < num; i++) {
-        if (s[0].x == s[i].x && s[0].y == s[i].y) num = i;
+        if (s[0].x == s[i].x && s[0].y == s[i].y) {
+            num = i; // Snake hit itself, reset length to the point of collision
+        }
     }
 }
 
@@ -51,9 +63,9 @@ void showAbout(RenderWindow& window) {
 
     Text aboutText;
     aboutText.setFont(font);
-    aboutText.setCharacterSize(24);
+    aboutText.setCharacterSize(27);
     aboutText.setFillColor(Color::White);
-    aboutText.setString("Tron Tail \nMove the snake with arrow keys\nEat the fruit to grow longer\nDont run into yourself/nCreated by Harrison Conrado and Landon");
+    aboutText.setString("Tron Tail \nMove the snake with arrow keys\nEat the fruit to grow longer\nDont run into yourself\nCreated by Harrison Conrado and Landon");
     aboutText.setPosition(50, 50);
 
     while (true) {
@@ -136,11 +148,13 @@ int main() {
                 }
             }
 
+            // Draw the snake
             for (int i = 0; i < num; i++) {
                 sprite1.setPosition(s[i].x * gridSize, s[i].y * gridSize);
                 window.draw(sprite1);
             }
 
+            // Draw the fruit
             sprite2.setPosition(f.x * gridSize, f.y * gridSize);
             window.draw(sprite2);
         }
