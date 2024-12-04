@@ -1,7 +1,3 @@
-/*       
-
-
-
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include "MainMenu.h"
@@ -20,42 +16,65 @@ struct Fruit { int x, y; } f;
 GameState currentState = MainMenuState;
 
 void Tick() {
-    // Move the snake’s body
     for (int i = num; i > 0; --i) {
         s[i].x = s[i - 1].x;
         s[i].y = s[i - 1].y;
     }
 
-    // Move the snake’s head based on direction
     if (dir == 0) s[0].y += 1;
     if (dir == 1) s[0].x -= 1;
     if (dir == 2) s[0].x += 1;
     if (dir == 3) s[0].y -= 1;
 
-    // If the snake eats the fruit
     if (s[0].x == f.x && s[0].y == f.y) {
         num++;
         f.x = rand() % N;
         f.y = rand() % M;
     }
 
-    // Handle wall collisions (wrap-around screen)
     if (s[0].x >= N) s[0].x = 0;
     if (s[0].x < 0) s[0].x = N - 1;
     if (s[0].y >= M) s[0].y = 0;
     if (s[0].y < 0) s[0].y = M - 1;
 
-    // Snake collides with itself
     for (int i = 1; i < num; i++) {
-        if (s[0].x == s[i].x && s[0].y == s[i].y) num = i; // End game if collides
+        if (s[0].x == s[i].x && s[0].y == s[i].y) num = i;
+    }
+}
+
+void showAbout(RenderWindow& window) {
+    Font font;
+    if (!font.loadFromFile("fonts/SnakeGameDemoRegular.ttf")) {
+        cout << "Error loading font!" << endl;
+        return;
+    }
+
+    Text aboutText;
+    aboutText.setFont(font);
+    aboutText.setCharacterSize(24);
+    aboutText.setFillColor(Color::White);
+    aboutText.setString("Tron Tail \nMove the snake with arrow keys\nEat the fruit to grow longer\nDont run into yourself/nCreated by Harrison Conrado and Landon");
+    aboutText.setPosition(50, 50);
+
+    while (true) {
+        Event e;
+        while (window.pollEvent(e)) {
+            if (e.type == Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape)) {
+                return; // Exit the about page
+            }
+        }
+
+        window.clear();
+        window.draw(aboutText);
+        window.display();
     }
 }
 
 int main() {
-    srand(time(0)); // Initialize random seed
+    srand(time(0));
     RenderWindow window(VideoMode(w, h), "Tron Tail!");
 
-    Texture t1, t2, bgTexture;  // Texture for snake, fruit, and background
+    Texture t1, t2, bgTexture;
     if (!t1.loadFromFile("images/green.png") || !t2.loadFromFile("images/red.png") || !bgTexture.loadFromFile("images/white.png")) {
         cout << "Error loading images!" << endl;
         return -1;
@@ -67,18 +86,6 @@ int main() {
     float timer = 0, delay = 0.1f;
     f.x = 10;
     f.y = 10;
-
-    // Add the snake length text
-    Font font;
-    if (!font.loadFromFile("fonts/SnakeGameDemoRegular.ttf")) {
-        cout << "Error loading font!" << endl;
-        return -1;
-    }
-
-    Text lengthText;
-    lengthText.setFont(font);
-    lengthText.setCharacterSize(24);
-    lengthText.setFillColor(Color::White);
 
     MainMenu menu(w, h);
 
@@ -99,7 +106,8 @@ int main() {
             if (Keyboard::isKeyPressed(Keyboard::Enter)) {
                 int selected = menu.MainMenuPressed();
                 if (selected == 0) currentState = PlayingState;
-                if (selected == 3) window.close();
+                if (selected == 1) showAbout(window); // Show about page
+                if (selected == 2) window.close();    // Exit game
             }
         }
 
@@ -109,7 +117,6 @@ int main() {
                 Tick();
             }
 
-            // Handle snake movement based on arrow keys
             if (Keyboard::isKeyPressed(Keyboard::Up) && dir != 0) dir = 3;
             if (Keyboard::isKeyPressed(Keyboard::Down) && dir != 3) dir = 0;
             if (Keyboard::isKeyPressed(Keyboard::Left) && dir != 2) dir = 1;
@@ -122,27 +129,20 @@ int main() {
             menu.draw(window);
         }
         else if (currentState == PlayingState) {
-            // Tiling the grid background
             for (int x = 0; x < N; ++x) {
                 for (int y = 0; y < M; ++y) {
                     bgSprite.setPosition(x * gridSize, y * gridSize);
-                    window.draw(bgSprite); // Draw background for each tile
+                    window.draw(bgSprite);
                 }
             }
 
-            // Draw the snake
             for (int i = 0; i < num; i++) {
                 sprite1.setPosition(s[i].x * gridSize, s[i].y * gridSize);
                 window.draw(sprite1);
             }
 
-            // Draw the fruit
             sprite2.setPosition(f.x * gridSize, f.y * gridSize);
             window.draw(sprite2);
-
-            // Update and draw the snake length counter
-            lengthText.setString("Length: " + std::to_string(static_cast<float>(num)));  // Display snake length
-            window.draw(lengthText);
         }
 
         window.display();
@@ -150,5 +150,3 @@ int main() {
 
     return 0;
 }
-*/
-

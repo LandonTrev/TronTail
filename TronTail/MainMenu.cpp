@@ -27,7 +27,7 @@ MainMenu::MainMenu(float width, float height) {
 
     // Set up menu items (Play, Options, Exit)
     setupMenuItem(mainMenu[0], "Play", centerX, startingY, 0);
-    setupMenuItem(mainMenu[1], "Options", centerX, startingY, 1);
+    setupMenuItem(mainMenu[1], "About", centerX, startingY, 1);
     setupMenuItem(mainMenu[2], "Exit", centerX, startingY, 2);
 
     MainMenuSelected = 0; // Highlight "Play" by default
@@ -97,3 +97,4 @@ void MainMenu::draw(RenderWindow& window) {
 MainMenu::~MainMenu() {
     // Destructor, if needed for cleanup (not used here)
 }
+
