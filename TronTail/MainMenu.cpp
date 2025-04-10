@@ -7,12 +7,12 @@ MainMenu::MainMenu(float width, float height) {
     }
 
     // Load the background texture (ensure the path is correct)
-    if (!backgroundTexture.loadFromFile("texture/background.jpg")) { // Adjust the background path if needed
+    if (!backgroundTexture.loadFromFile("texture/background1.jpg")) { 
         cout << "Error loading background texture!" << endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
 
-    // Set up the number of menu items (now 3 instead of 4)
+    // Set up the number of menu items 
     int numMenuItems = 3;  // Play, Options, Exit
 
     // Center coordinates for the menu
@@ -95,6 +95,5 @@ void MainMenu::draw(RenderWindow& window) {
 }
 
 MainMenu::~MainMenu() {
-    // Destructor, if needed for cleanup (not used here)
+    
 }
-
