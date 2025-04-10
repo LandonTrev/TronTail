@@ -3,12 +3,12 @@
 MainMenu::MainMenu(float width, float height) {
     // Load the font for the menu text
     if (!font.loadFromFile("fonts/SnakeGameDemoRegular.ttf")) { // Adjust the font path if necessary
-        cout << "Error: No font file found!" << endl;
+        std::cout << "Error: No font file found!" << std::endl;
     }
 
     // Load the background texture (ensure the path is correct)
-    if (!backgroundTexture.loadFromFile("texture/background1.jpg")) { 
-        cout << "Error loading background texture!" << endl;
+    if (!backgroundTexture.loadFromFile("texture/mainMenu1.png")) {
+        std::cout << "Error loading background texture!" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
 
@@ -36,9 +36,9 @@ MainMenu::MainMenu(float width, float height) {
     cooldownClock.restart();
 }
 
-void MainMenu::setupMenuItem(Text& menuItem, const string& text, float centerX, float startingY, int index) {
+void MainMenu::setupMenuItem(Text& menuItem, const std::string& text, float centerX, float startingY, int index) {
     menuItem.setFont(font);
-    menuItem.setFillColor(index == MainMenuSelected ? Color::Blue : Color::White); // Highlight selected option
+    menuItem.setFillColor(index == MainMenuSelected ? Color(135, 206, 250) : Color::White); // Highlight selected option with lighter blue
     menuItem.setString(text);
     menuItem.setCharacterSize(70);
     menuItem.setPosition(centerX - menuItem.getGlobalBounds().width / 2, startingY + index * menuItem.getCharacterSize());
@@ -51,13 +51,13 @@ void MainMenu::MoveUp() {
         if (MainMenuSelected > 0) {
             mainMenu[MainMenuSelected].setFillColor(Color::White);  // Reset previous selected color
             --MainMenuSelected;
-            mainMenu[MainMenuSelected].setFillColor(Color::Blue); // Set new selected color
+            mainMenu[MainMenuSelected].setFillColor(Color(135, 206, 250)); // Set new selected color to lighter blue
         }
         else {
             // If already at the top, wrap to the bottom (Exit)
             mainMenu[MainMenuSelected].setFillColor(Color::White);
             MainMenuSelected = 2;  // Changed to 2 to reflect "Exit" being the last menu item
-            mainMenu[MainMenuSelected].setFillColor(Color::Blue);
+            mainMenu[MainMenuSelected].setFillColor(Color(135, 206, 250)); // Set new selected color to lighter blue
         }
     }
 }
@@ -69,13 +69,13 @@ void MainMenu::MoveDown() {
         if (MainMenuSelected < 2) {  // Change the condition to ensure it doesn't go beyond "Exit"
             mainMenu[MainMenuSelected].setFillColor(Color::White);  // Reset previous selected color
             ++MainMenuSelected;
-            mainMenu[MainMenuSelected].setFillColor(Color::Blue); // Set new selected color
+            mainMenu[MainMenuSelected].setFillColor(Color(135, 206, 250)); // Set new selected color to lighter blue
         }
         else {
             // If already at the bottom, wrap to the top (Play)
             mainMenu[MainMenuSelected].setFillColor(Color::White);
             MainMenuSelected = 0;  // Wrap to the top (Play)
-            mainMenu[MainMenuSelected].setFillColor(Color::Blue);
+            mainMenu[MainMenuSelected].setFillColor(Color(135, 206, 250)); // Set new selected color to lighter blue
         }
     }
 }
@@ -95,5 +95,5 @@ void MainMenu::draw(RenderWindow& window) {
 }
 
 MainMenu::~MainMenu() {
-    
+
 }
