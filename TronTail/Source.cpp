@@ -100,7 +100,7 @@ int main() {
     RenderWindow window(VideoMode(windowWidth, windowHeight), "Tron Tail!");
 
     Texture t1, t2, bgTexture;
-    if (!t1.loadFromFile("images/green.png") || !t2.loadFromFile("images/red.png") || !bgTexture.loadFromFile("images/white.png")) {
+    if (!t1.loadFromFile("images/blue.png") || !t2.loadFromFile("images/red.png") || !bgTexture.loadFromFile("images/white.png")) {
         std::cout << "Error loading images!" << std::endl;
         return -1;
     }

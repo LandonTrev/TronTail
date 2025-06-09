@@ -56,7 +56,7 @@ void MainMenu::MoveUp() {
         else {
             // If already at the top, wrap to the bottom (Exit)
             mainMenu[MainMenuSelected].setFillColor(Color::White);
-            MainMenuSelected = 2;  // Changed to 2 to reflect "Exit" being the last menu item
+			MainMenuSelected = 2;  // Changed to 2 to reflect "Exit" being the last menu (gameState)
             mainMenu[MainMenuSelected].setFillColor(Color(135, 206, 250)); // Set new selected color to lighter blue
         }
     }
